@@ -28,6 +28,7 @@ public class SonarProperties {
   public static final String DEFAULT_SOURCES = ".";
   public static final String DEFAULT_TESTS = ".";
   public static final String DEFAULT_TESTS_INCLUSIONS = "**/*Test.*,**/test/**/*";
+  public static final String TASY_REPORT_PATH="report.path";
 
   private SonarProperties() {
 

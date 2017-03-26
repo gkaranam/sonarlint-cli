@@ -100,7 +100,7 @@ public class HtmlReport implements Reporter {
   public void print(IssuesReport report) {
     LOGGER.debug("Generating SonarLint Report to: " + reportFile);
     writeToFile(report, reportFile);
-    LOGGER.info("SonarLint HTML Report generated: " + reportFile);
+//    LOGGER.info("SonarLint HTML Report generated: " + reportFile);
     try {
       copyDependencies(reportDir);
     } catch (Exception e) {

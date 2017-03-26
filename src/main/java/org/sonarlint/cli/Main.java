@@ -19,8 +19,11 @@
  */
 package org.sonarlint.cli;
 
-import com.google.common.annotations.VisibleForTesting;
+import static org.sonarlint.cli.SonarProperties.PROJECT_HOME;
+import static org.sonarlint.cli.SonarProperties.TASY_REPORT_PATH;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,6 +33,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Map;
+
+import org.sonar.api.internal.apachecommons.io.FileUtils;
 import org.sonarlint.cli.analysis.SonarLint;
 import org.sonarlint.cli.analysis.SonarLintFactory;
 import org.sonarlint.cli.config.ConfigurationReader;
@@ -39,7 +44,7 @@ import org.sonarlint.cli.util.System2;
 import org.sonarlint.cli.util.SystemInfo;
 import org.sonarlint.cli.util.Util;
 
-import static org.sonarlint.cli.SonarProperties.PROJECT_HOME;
+import com.google.common.annotations.VisibleForTesting;
 
 public class Main {
   static final int SUCCESS = 0;
@@ -179,6 +184,7 @@ public class Main {
     SonarLintFactory sonarLintFactory = new SonarLintFactory(reader);
 
     int ret = new Main(parsedOpts, sonarLintFactory, reportFactory, fileFinder, getProjectHome(system)).run();
+    moveFolderToConfigPath();
     system.exit(ret);
     return;
   }
@@ -219,5 +225,17 @@ public class Main {
 
   private static void suggestDebugMode() {
     LOGGER.error("Re-run SonarLint using the -X switch to enable full debug logging.");
+  }
+  private static void moveFolderToConfigPath(){
+	  try{
+		  System2 system = System2.INSTANCE;
+		  //FileUtils.copyDirectory(getProjectHome(system).resolve(".sonarlint").toFile(), new File(system.getProperty(TASY_REPORT_PATH)));
+		  FileUtils.copyDirectory(getProjectHome(system).resolve(".sonarlint").toFile(), new File("C:/tasy_sonarclient"));
+		  FileUtils.deleteDirectory(getProjectHome(system).resolve(".sonarlint").toFile());  
+		  //LOGGER.info("SonarLint HTML Report generated: " + Paths.get(system.getProperty(TASY_REPORT_PATH)).toAbsolutePath());
+		  LOGGER.info("SonarLint HTML Report generated: " + "C:\\tasy_sonarclient\\sonarlint-report.html");
+	  }catch(IOException ex){
+		  LOGGER.error("Unexpected Error in moving generated directory" +ex);
+	  }
   }
 }
