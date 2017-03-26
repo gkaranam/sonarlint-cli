@@ -20,10 +20,8 @@
 package org.sonarlint.cli;
 
 import static org.sonarlint.cli.SonarProperties.PROJECT_HOME;
-import static org.sonarlint.cli.SonarProperties.TASY_REPORT_PATH;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,7 +32,6 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Map;
 
-import org.sonar.api.internal.apachecommons.io.FileUtils;
 import org.sonarlint.cli.analysis.SonarLint;
 import org.sonarlint.cli.analysis.SonarLintFactory;
 import org.sonarlint.cli.config.ConfigurationReader;
@@ -184,7 +181,6 @@ public class Main {
     SonarLintFactory sonarLintFactory = new SonarLintFactory(reader);
 
     int ret = new Main(parsedOpts, sonarLintFactory, reportFactory, fileFinder, getProjectHome(system)).run();
-    moveFolderToConfigPath();
     system.exit(ret);
     return;
   }
@@ -225,17 +221,5 @@ public class Main {
 
   private static void suggestDebugMode() {
     LOGGER.error("Re-run SonarLint using the -X switch to enable full debug logging.");
-  }
-  private static void moveFolderToConfigPath(){
-	  try{
-		  System2 system = System2.INSTANCE;
-		  //FileUtils.copyDirectory(getProjectHome(system).resolve(".sonarlint").toFile(), new File(system.getProperty(TASY_REPORT_PATH)));
-		  FileUtils.copyDirectory(getProjectHome(system).resolve(".sonarlint").toFile(), new File("C:/tasy_sonarclient"));
-		  FileUtils.deleteDirectory(getProjectHome(system).resolve(".sonarlint").toFile());  
-		  //LOGGER.info("SonarLint HTML Report generated: " + Paths.get(system.getProperty(TASY_REPORT_PATH)).toAbsolutePath());
-		  LOGGER.info("SonarLint HTML Report generated: " + "C:\\tasy_sonarclient\\sonarlint-report.html");
-	  }catch(IOException ex){
-		  LOGGER.error("Unexpected Error in moving generated directory" +ex);
-	  }
   }
 }

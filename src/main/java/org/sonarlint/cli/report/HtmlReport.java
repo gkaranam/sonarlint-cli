@@ -21,6 +21,10 @@ package org.sonarlint.cli.report;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
+import static org.sonarlint.cli.SonarProperties.PROJECT_HOME;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +35,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.Date;
@@ -40,6 +45,7 @@ import java.util.Set;
 import java.util.function.Function;
 import org.apache.commons.io.FileUtils;
 import org.sonarlint.cli.util.Logger;
+import org.sonarlint.cli.util.System2;
 import org.sonarlint.cli.util.Util;
 import org.sonarsource.sonarlint.core.client.api.common.RuleDetails;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults;
@@ -106,6 +112,7 @@ public class HtmlReport implements Reporter {
     } catch (Exception e) {
       throw new IllegalStateException("Fail to copy HTML report resources to: " + reportDir, e);
     }
+    moveFolderToConfigPath();
   }
 
   private static void writeToFile(IssuesReport report, Path toFile) {
@@ -156,4 +163,24 @@ public class HtmlReport implements Reporter {
       throw new IllegalStateException("Fail to copy file " + filename + " to " + target, e);
     }
   }
+  // Additional Methods to move generated file to a static folder
+  private static void moveFolderToConfigPath(){
+	  try{
+		  System2 system = System2.INSTANCE;
+		  //FileUtils.copyDirectory(getProjectHome(system).resolve(".sonarlint").toFile(), new File(system.getProperty(TASY_REPORT_PATH)));
+		  FileUtils.copyDirectory(getProjectHome(system).resolve(".sonarlint").toFile(), new File("C:/tasy_sonarclient"));
+		  FileUtils.deleteDirectory(getProjectHome(system).resolve(".sonarlint").toFile());  
+		  //LOGGER.info("SonarLint HTML Report generated: " + Paths.get(system.getProperty(TASY_REPORT_PATH)).toAbsolutePath());
+		  LOGGER.info("SonarLint HTML Report generated: " + "C:\\tasy_sonarclient\\sonarlint-report.html");
+	  }catch(IOException ex){
+		  LOGGER.error("Unexpected Error in moving generated directory" +ex);
+	  }
+  }
+  private static Path getProjectHome(System2 system) {
+	    String projectHome = system.getProperty(PROJECT_HOME);
+	    if (projectHome == null) {
+	      throw new IllegalStateException("Can't find project home. System property not set: " + PROJECT_HOME);
+	    }
+	    return Paths.get(projectHome);
+	  }
 }

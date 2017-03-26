@@ -155,7 +155,7 @@
 <body>
 <div id="reportHeader">
   <div id="logo"><img src="sonarlintreport_files/sonarlint.png" alt="SonarLint"/></div>
-  <div class="title">SonarLint Report</div>
+  <div class="title">Tasy SonarLint Report V1.0</div>
   <div class="subtitle">${report.getTitle()?html} - ${report.getDate()?datetime}</div>
 </div>
 
