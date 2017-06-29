@@ -1,4 +1,4 @@
-SonarLint CLI [![Build Status](https://travis-ci.org/SonarSource/sonarlint-cli.svg?branch=master)](https://travis-ci.org/SonarSource/sonarlint-cli)
+
 =========================
 
 Documentation:
