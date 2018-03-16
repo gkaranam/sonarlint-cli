@@ -1,15 +1,13 @@
+SonarLint-CLI
+=========================
 Parent repository has been archived by the owner.
 =========================
 
 Documentation:
 
-http://www.sonarlint.org/commandline
+https://gkaranam.github.io/sonarlint-cli/
 
 http://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner
-
-Issue Tracker:
-
-http://jira.sonarsource.com/browse/SLCLI
 
 ### License
 
