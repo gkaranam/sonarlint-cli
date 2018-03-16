@@ -46,6 +46,7 @@ public class SonarLintFactory {
   private static final Logger LOGGER = Logger.get();
 
   private static final Path GLOBAL_CONFIGURATION_FILEPATH;
+  private static final Path TASY_PROJECT_CONFIG_FILENAME;
 
   private static final String GLOBAL_CONFIGURATION_FILENAME = "global.json";
   private static final String PROJECT_CONFIGURATION_FILENAME = "sonarlint.json";
@@ -58,6 +59,10 @@ public class SonarLintFactory {
       .resolve(".sonarlint")
       .resolve("conf")
       .resolve(GLOBAL_CONFIGURATION_FILENAME);
+    TASY_PROJECT_CONFIG_FILENAME = Paths.get(home)
+    		.resolve(".sonarlint")
+    		.resolve("conf")
+    		.resolve(PROJECT_CONFIGURATION_FILENAME);
   }
 
   public SonarLintFactory(ConfigurationReader configurationReader) {
@@ -65,7 +70,8 @@ public class SonarLintFactory {
   }
 
   public SonarLint createSonarLint(Path projectHome, boolean mustBeConnected, boolean verbose) {
-    return createSonarLint(GLOBAL_CONFIGURATION_FILEPATH, projectHome.resolve(PROJECT_CONFIGURATION_FILENAME), mustBeConnected, verbose);
+    //return createSonarLint(GLOBAL_CONFIGURATION_FILEPATH, projectHome.resolve(PROJECT_CONFIGURATION_FILENAME), mustBeConnected, verbose);
+	  return createSonarLint(GLOBAL_CONFIGURATION_FILEPATH, TASY_PROJECT_CONFIG_FILENAME, mustBeConnected, verbose);
   }
 
   public SonarLint createSonarLint(Path globalConfigPath, Path projectConfigPath, boolean mustBeConnected, boolean verbose) {
